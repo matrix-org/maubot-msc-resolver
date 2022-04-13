@@ -1,0 +1,13 @@
+# Maubot plugin files
+*.mbp
+
+# Python environment files
+venv/
+env/
+
+# Python cache files
+*.pyc
+
+# IDE files
+.idea/
+.vscode/

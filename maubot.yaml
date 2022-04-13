@@ -1,0 +1,7 @@
+maubot: 0.1.0
+id: org.matrix.maubot_msc_resolver
+version: 0.1.0
+license: Apache
+modules:
+  - maubot_msc_resolver
+main_class: MSCResolverBot
