@@ -1,5 +1,5 @@
 from maubot import Plugin, MessageEvent
-from mautrix.types.event import MessageType
+from mautrix.types.event import MessageType, RelatesTo
 from maubot.handlers import command
 from mautrix.util import markdown
 from typing import Optional, Tuple
@@ -90,7 +90,24 @@ class MSCResolverBot(Plugin):
 
         # Generate and post the message
         self.log.debug(f"Sending response to event {event.event_id}")
-        await self.client.send_notice(event.room_id, message, markdown.render(message))
+
+        # If the original message was in a thread, also post to that thread
+        if event.content.relates_to.rel_type.value == "m.thread":
+            # Re-use the relation from the original message, replacing
+            # the replied-to event ID with the message we're responding to.
+            thread_relation = event.content.relates_to
+            in_reply_to_dict = thread_relation["m.in_reply_to"] or {}
+            in_reply_to_dict["event_id"] = event.event_id
+
+            await self.client.send_notice(
+                event.room_id,
+                message,
+                markdown.render(message),
+                relates_to=thread_relation,
+            )
+        else:
+            # Otherwise, just post to the room directly
+            await self.client.send_notice(event.room_id, message, markdown.render(message))
 
     async def _resolve_msc(self, msc_id: str) -> Optional[MSC]:
         """Given an MSC's ID, return an MSC object.
