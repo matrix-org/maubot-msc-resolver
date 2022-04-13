@@ -38,6 +38,10 @@ class MSCResolverBot(Plugin):
         if event.sender == self.client.mxid:
             return
 
+        # Ignore message edits
+        if event.content.get_edit() is not None:
+            return
+
         # Ignore unless the pattern was contained within a text message or an emote.
         # This explicitly ignores "notice" messages, which may be posted by other bots.
         if event.content.msgtype not in (MessageType.TEXT, MessageType.EMOTE):
