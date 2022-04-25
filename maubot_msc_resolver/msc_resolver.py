@@ -92,7 +92,8 @@ class MSCResolverBot(Plugin):
         self.log.debug(f"Sending response to event {event.event_id}")
 
         # If the original message was in a thread, also post to that thread
-        if event.content.relates_to.rel_type.value == "m.thread":
+        relation_type = event.content.relates_to.rel_type
+        if relation_type and relation_type.value == "m.thread":
             # Re-use the relation from the original message, replacing
             # the replied-to event ID with the message we're responding to.
             thread_relation = event.content.relates_to
