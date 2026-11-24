@@ -17,3 +17,14 @@ the [releases page](https://github.com/matrix-org/maubot-msc-resolver/releases/l
 Invite an instance of the bot to a room and it should join automatically. It will then post
 a notice containing information regarding an MSC whenever one is mentioned in a message!
 `m.notice` messages are ignored.
+
+## Development
+
+This project uses [uv](https://docs.astral.sh/uv/).
+
+```sh
+uv sync                    # create .venv with maubot + dev tools
+uv run ruff check .        # lint
+uv run ruff format .       # format
+uv run mbc build           # build the .mbp plugin file
+```

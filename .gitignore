@@ -11,3 +11,6 @@ env/
 # IDE files
 .idea/
 .vscode/
+
+# uv
+.venv/
