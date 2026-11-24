@@ -1,0 +1,33 @@
+[project]
+name = "maubot-msc-resolver"
+version = "0.1.2"
+description = "A maubot plugin that posts links to Matrix Spec Changes (MSCs) mentioned in a room."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    # Provided by the maubot runtime; listed here for local development and type checking.
+    "maubot~=0.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8",
+    # maubot 0.3's `mbc` CLI imports pkg_resources but does not declare it.
+    "setuptools",
+]
+
+[tool.uv]
+# This is a maubot plugin, packaged as an .mbp with `mbc build` rather than as a wheel.
+package = false
+# The plugin was written in April 2022 (v0.1.2); resolve dependencies as they were then.
+exclude-newer = "2022-04-26T00:00:00Z"
+# Dev tooling is not shipped with the plugin, so let it use current releases.
+exclude-newer-package = { ruff = false }
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
